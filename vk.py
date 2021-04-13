@@ -11,15 +11,47 @@ def sender(id, text):
     vk_session.method('messages.send', {'chat_id': id, 'message': text, 'random_id': 0})
 
 
+def add(day, rasp, id):
+    print(day, rasp)
+
+
+def show(id, day):
+    pass
+
+
 def main():
+    week = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
     for event in longpoll.listen():
         if event.type == VkBotEventType.MESSAGE_NEW:
             if event.from_chat:
+
                 id = event.chat_id
+
                 msg = event.object.message['text'].lower()
+
                 if msg == 'привет':
                     sender(id, 'Приветствую))')
-                print(msg)
+
+                if msg == 'показать расписание':
+                    sender(id, 'Введите день недели')
+                    f = 'show'
+                if msg in week and f == 'show':
+                    sender(id, 'Расписание на {}:'.format(msg))
+
+                if msg == 'помощь':
+                    pass
+                if msg == 'изменить расписание':
+                    sender(id, 'Введите день недели')
+                    f = 'change'
+                if msg in week and f == 'change':
+                    sender(id, 'Вводите уроки (каждый с новой строки)')
+                    day = msg
+
+                    f = 'add'
+                if f == 'add':
+                    rasp = msg.split()
+
+                    add(day, rasp, id)
 
 
 if __name__ == '__main__':
