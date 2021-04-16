@@ -14,39 +14,60 @@ def sender(id, text):
 
 
 def main():
-    week = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
-    for event in longpoll.listen():
-        if event.type == VkBotEventType.MESSAGE_NEW:
-            if event.from_chat:
-                id = event.chat_id
-                add_id(id)
-                create_table()
+    try:
+        week = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
+        for event in longpoll.listen():
+            if event.type == VkBotEventType.MESSAGE_NEW:
+                if event.from_chat:
+                    id = event.chat_id
+                    add_id(id)
+                    create_table()
 
-                msg = event.object.message['text'].lower()
+                    msg = event.object.message['text'].lower()
 
-                if msg == 'привет':
-                    sender(id, 'Приветствую))')
+                    if msg == 'привет':
+                        sender(id, 'Приветствую))')
 
-                if msg == 'показать расписание':
-                    sender(id, 'Введите день недели')
-                    f = 'show'
-                if msg in week and f == 'show':
-                    sender(id, 'Расписание на {}: \n{}'.format(msg, show(id, week.index(msg))))
+                    if msg == 'показать расписание':
+                        sender(id, 'Введите день недели')
+                        f = 'show'
+                    if msg in week and f == 'show':
+                        ms = ''
+                        if msg == 'среда':
+                            ms = 'среду'
+                        elif msg == 'пятница':
+                            ms = 'пятницу'
+                        elif msg == 'суббота':
+                            ms = 'субботу'
+                        else:
+                            ms = msg
 
-                if msg == 'изменить расписание':
-                    sender(id, 'Введите день недели')
-                    f = 'change'
-                if msg in week and f == 'change':
-                    sender(id, 'Вводите уроки (каждый с новой строки)')
-                    day = msg
-                    f = 'add'
+                        sender(id, 'Расписание на {}: \n{}'.format(ms, show(id, week.index(msg))))
 
-                if f == 'add':
-                    rasp = msg.split()
-                    change(id, week.index(day), rasp)
-                    if len(rasp)>1:
-                        sender(id, "Расписание на {} обновлено✅ ".format(day))
+                    if msg == 'изменить расписание':
+                        sender(id, 'Введите день недели')
+                        f = 'change'
+                    if msg in week and f == 'change':
+                        sender(id, 'Вводите уроки (каждый с новой строки)')
+                        day = msg
+                        f = 'add'
 
+                    if f == 'add':
+                        rasp = msg.split()
+                        change(id, week.index(day), rasp)
+                        da = ''
+                        if day == 'среда':
+                            da = 'среду'
+                        elif day == 'пятница':
+                            da = 'пятницу'
+                        elif day == 'суббота':
+                            da = 'субботу'
+                        else:
+                            da = day
+                        if len(rasp) > 1:
+                            sender(id, "Расписание на {} обновлено✅ ".format(da))
+    except:
+        main()
 
 
 if __name__ == '__main__':
