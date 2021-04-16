@@ -1,5 +1,4 @@
 import sqlite3 as sql
-
 con = sql.connect('test.db')
 
 
@@ -17,13 +16,19 @@ def add_id(id):
             con.commit()
 
 
+
 def show(id, day):
     week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     day = week[int(day)]
     cur = con.cursor()
-    result = cur.execute("""SELECT {} FROM '{}'  '' """.format(day,id)).fetchall()
-    print(result)
-    return  (result)
+    s = ''
+    result = cur.execute("""SELECT {} FROM '{}'  '' """.format(day, id)).fetchall()
+    res = result[0][0].split()
+    res = [i.capitalize() for i in res]
+    for i in res:
+        s += str(res.index(i) + 1) + '. ' + i + '\n'
+    return (s)
+
 
 def change(id, day, rasp):
     cur = con.cursor()
@@ -35,5 +40,5 @@ def change(id, day, rasp):
     s = """INSERT INTO '{}'('{}') VALUES('{}')""".format(id, day, rasp)
     cur.execute(s)
     con.commit()
+    # sender(id, "Расписание на {} обновлено".format(day))
 
-    print(day, id, rasp)

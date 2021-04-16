@@ -1,5 +1,4 @@
 import sqlite3 as sql
-
 con = sql.connect('test.db')
 def create_table():
     with con:

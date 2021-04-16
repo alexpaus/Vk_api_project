@@ -31,7 +31,7 @@ def main():
                     sender(id, 'Введите день недели')
                     f = 'show'
                 if msg in week and f == 'show':
-                    sender(id, 'Расписание на {}: {}'.format(msg, show(id, week.index(msg))))
+                    sender(id, 'Расписание на {}: \n{}'.format(msg, show(id, week.index(msg))))
 
                 if msg == 'изменить расписание':
                     sender(id, 'Введите день недели')
@@ -44,6 +44,8 @@ def main():
                 if f == 'add':
                     rasp = msg.split()
                     change(id, week.index(day), rasp)
+                    if len(rasp)>1:
+                        sender(id, "Расписание на {} обновлено✅ ".format(day))
 
 
 
