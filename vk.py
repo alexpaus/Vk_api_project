@@ -25,44 +25,46 @@ def main():
 
                     msg = event.object.message['text'].lower()
 
-                    if msg == 'показать расписание':
-                        sender(id, 'Введите день недели')
-                        f = 'show'
-                    if msg in week and f == 'show':
-                        ms = ''
-                        if msg == 'среда':
-                            ms = 'среду'
-                        elif msg == 'пятница':
-                            ms = 'пятницу'
-                        elif msg == 'суббота':
-                            ms = 'субботу'
-                        else:
-                            ms = msg
+                    if msg[0] == '!':
+                        msg = msg[1:]
+                        if msg == 'показать расписание':
+                            sender(id, 'Введите день недели')
+                            f = 'show'
+                        if msg in week and f == 'show':
+                            ms = ''
+                            if msg == 'среда':
+                                ms = 'среду'
+                            elif msg == 'пятница':
+                                ms = 'пятницу'
+                            elif msg == 'суббота':
+                                ms = 'субботу'
+                            else:
+                                ms = msg
 
-                        sender(id, 'Расписание на {}: \n{}'.format(ms, show(id, week.index(msg))))
+                            sender(id, 'Расписание на {}: \n{}'.format(ms, show(id, week.index(msg))))
 
-                    if msg == 'изменить расписание':
-                        sender(id, 'Введите день недели')
-                        f = 'change'
-                    if msg in week and f == 'change':
-                        sender(id, 'Вводите уроки (каждый с новой строки)')
-                        day = msg
-                        f = 'add'
+                        if msg == 'изменить расписание':
+                            sender(id, 'Введите день недели')
+                            f = 'change'
+                        if msg in week and f == 'change':
+                            sender(id, 'Вводите уроки (каждый с новой строки)')
+                            day = msg
+                            f = 'add'
 
-                    if f == 'add':
-                        rasp = msg.split()
-                        change(id, week.index(day), rasp)
-                        da = ''
-                        if day == 'среда':
-                            da = 'среду'
-                        elif day == 'пятница':
-                            da = 'пятницу'
-                        elif day == 'суббота':
-                            da = 'субботу'
-                        else:
-                            da = day
-                        if len(rasp) > 1:
-                            sender(id, "Расписание на {} обновлено✅ ".format(da))
+                        if f == 'add':
+                            rasp = msg.split()
+                            change(id, week.index(day), rasp)
+                            da = ''
+                            if day == 'среда':
+                                da = 'среду'
+                            elif day == 'пятница':
+                                da = 'пятницу'
+                            elif day == 'суббота':
+                                da = 'субботу'
+                            else:
+                                da = day
+                            if len(rasp) > 1:
+                                sender(id, "Расписание на {} обновлено✅ ".format(da))
     except:
         main()
 
