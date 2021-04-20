@@ -25,9 +25,6 @@ def main():
 
                     msg = event.object.message['text'].lower()
 
-                    if msg == 'привет':
-                        sender(id, 'Приветствую))')
-
                     if msg == 'показать расписание':
                         sender(id, 'Введите день недели')
                         f = 'show'
@@ -68,6 +65,7 @@ def main():
                             sender(id, "Расписание на {} обновлено✅ ".format(da))
     except:
         main()
+
 
 if __name__ == '__main__':
     main()
